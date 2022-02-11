@@ -2,6 +2,7 @@ package Servlets;
 
 import java.io.IOException;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Entities.Pedido;
+import Interfacez.VerificaNuevoPedido;
 import Logic.LineaPedidoLogic;
 import Logic.PedidoLogic;
 import Logic.ProductoLogic;
@@ -56,14 +58,25 @@ public class ListarPedidos extends HttpServlet {
 		}
 		
 		else if(request.getParameter("listo")!=null)
-		{
-			Pedido pedido = pedidoLogic.GetOne(Integer.parseInt(request.getParameter("listo")));
-			pedido.setNroPedido(Integer.parseInt(request.getParameter("listo")));
-			pedido.setEstadoPedido("atendido");
-			pedido.setHoraEntrega(LocalTime.parse(request.getParameter("hora")));
-			pedidoLogic.Modify(pedido);
-			request.setAttribute("notificacion", "true");
-			request.getRequestDispatcher("./ListarPedidos.jsp").forward(request, response);
+		{	
+            try {
+            	Pedido pedido = pedidoLogic.GetOne(Integer.parseInt(request.getParameter("listo")));
+    			pedido.setNroPedido(Integer.parseInt(request.getParameter("listo")));
+    			pedido.setEstadoPedido("atendido");
+    			VerificaNuevoPedido.cantPedidos = VerificaNuevoPedido.cantPedidos - 1;
+    			pedido.setHoraEntrega(LocalTime.parse(request.getParameter("hora")));
+    			pedidoLogic.Modify(pedido);
+    			request.setAttribute("notificacion", "true");
+    			request.getRequestDispatcher("./ListarPedidos.jsp").forward(request, response);
+			}catch(DateTimeParseException e) {
+				Pedido pedido = pedidoLogic.GetOne(Integer.parseInt(request.getParameter("listo")));
+				pedido.setNroPedido(Integer.parseInt(request.getParameter("listo")));
+				request.setAttribute("atender", "true");
+				request.setAttribute("pedido", pedido);
+    			request.setAttribute("errorEnHora", "true");
+    			request.getRequestDispatcher("./ListarPedidos.jsp").forward(request, response);
+			}
+			
 		}
 		else if(request.getParameter("menues")!=null)//*****SE VERIFICA SI SE LE DIO CLICK AL BOTON MENUES*****
 		{

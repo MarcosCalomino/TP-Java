@@ -10,11 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.Timer;
 
 import Entities.Cliente;
-
 import Errores.BugManager;
 import Errores.TipoError;
+import Interfacez.VerificaNuevoPedido;
 import Logic.ClienteLogic;
 
 import Logic.ProductoLogic;
@@ -71,8 +72,12 @@ public class Login extends HttpServlet {
         	if(cliente.getTipoPermisos().equals("admin"))
         	{
         		HttpSession sessionLogin= request.getSession();
-          	    sessionLogin.setAttribute("sessionLogin", cliente.getNroCliente());
-    		    request.setAttribute("listaTipoProductos", productoLogic.GetAllTiposProductos());
+        		HttpSession sessionCantPedidos = request.getSession();
+        		sessionLogin.setAttribute("sessionLogin", cliente.getNroCliente());
+        		request.setAttribute("listaTipoProductos", productoLogic.GetAllTiposProductos()); 
+        		VerificaNuevoPedido oyente = new VerificaNuevoPedido();
+        		Timer Temporizador = new Timer(500, oyente);
+        		Temporizador.start();	 
             	request.getRequestDispatcher("./Admin.jsp").forward(request, response);
         	}
         	else

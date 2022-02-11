@@ -40,23 +40,40 @@ public class AltaProducto extends HttpServlet {
 		else if(request.getParameter("cargar")!=null)//SE VERIFICA SI SE LE DIO CLICK AL BOTON CARGAR
 		{		
 			try {
-				Producto p = new Producto();
-				request.setAttribute("nombreProducto", request.getParameter("nombreProducto"));
-				request.setAttribute("descripcionProducto", request.getParameter("descripcionProducto"));
-				request.setAttribute("precioProducto", Double.parseDouble(request.getParameter("precioProducto")));
-				String tipoProducto = request.getParameter("tipoProducto");
-				String nombreProducto = request.getParameter("nombreProducto");
-				String descripcionProducto = request.getParameter("descripcionProducto");
-				Double precioProducto = Double.parseDouble(request.getParameter("precioProducto"));
-				int estadoProducto = Integer.parseInt(request.getParameter("estadoProducto"));
-				Part filePart = request.getPart("imagenProducto");
-				File file = productoLogic.ManageImage(filePart);
-				p = productoLogic.setDatos(nombreProducto, descripcionProducto, tipoProducto, precioProducto, estadoProducto, file);
-				productoLogic.AltaProducto(p);
-				request.setAttribute("notificacion", "cargado");
-				request.getRequestDispatcher("./Admin.jsp").forward(request, response);
-//				request.setAttribute("avisoDeCarga", "cargado");			      			
-//				request.getRequestDispatcher("./AltaProducto.jsp").forward(request, response);		
+				
+                if(request.getParameter("nombreProducto").isEmpty() || request.getParameter("descripcionProducto").isEmpty())
+			    {
+                	request.setAttribute("nombreProducto", request.getParameter("nombreProducto"));
+    				request.setAttribute("descripcionProducto", request.getParameter("descripcionProducto"));
+    				request.setAttribute("precioProducto", Double.parseDouble(request.getParameter("precioProducto")));
+    				request.setAttribute("tipoProducto", request.getParameter("tipoProducto"));
+                	throw new NullPointerException();
+			    }
+                else
+                {
+                	Producto p = new Producto();
+                	request.setAttribute("nombreProducto", request.getParameter("nombreProducto"));
+    				request.setAttribute("descripcionProducto", request.getParameter("descripcionProducto"));
+    				request.setAttribute("precioProducto", Double.parseDouble(request.getParameter("precioProducto")));
+    				String tipoProducto = request.getParameter("tipoProducto");
+    				String nombreProducto = request.getParameter("nombreProducto");
+    				String descripcionProducto = request.getParameter("descripcionProducto");
+    				Double precioProducto = Double.parseDouble(request.getParameter("precioProducto"));
+    				int estadoProducto = Integer.parseInt(request.getParameter("estadoProducto"));
+    				Part filePart = request.getPart("imagenProducto");
+    				File file = productoLogic.ManageImage(filePart);
+    				p = productoLogic.setDatos(nombreProducto, descripcionProducto, tipoProducto, precioProducto, estadoProducto, file);
+    				productoLogic.AltaProducto(p);
+    				if(p.getNombreProducto().isEmpty() || p.getDescripcion().isEmpty())
+    				{
+    					request.setAttribute("notificacion", "noCargado");
+    				}
+    				else
+    				{
+    					request.setAttribute("notificacion", "cargado");
+    				}
+    				request.getRequestDispatcher("./Admin.jsp").forward(request, response);	
+                }				
 			}catch(NumberFormatException e){				
 				request.setAttribute("error", "erroEnPrecio");
 				request.getRequestDispatcher("./AltaProducto.jsp").forward(request, response);

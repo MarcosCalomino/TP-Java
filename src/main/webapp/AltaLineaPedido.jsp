@@ -11,6 +11,8 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>PRODUCTOS!</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
 <form action="AltaLineaPedido" method="post" enctype="multipart/form-data">
@@ -42,16 +44,16 @@
      <br>
   </nav>
   <%}%>
-  ---------------------------------------------------------------------------------------------------------  
+  ----------------------------------------------------------------------------------------------------------------  
   <nav>
-   <button name="pizzas" type="submit">Pizzas</button>
-   <button name="bebidas" type="submit">Bebidas</button>
-   <button name="postres" type="submit">Postres</button>
+   <button name="pizzas" type="submit" class="btn btn-outline-dark">Pizzas</button>
+   <button name="bebidas" type="submit" class="btn btn-outline-dark">Bebidas</button>
+   <button name="postres" type="submit" class="btn btn-outline-dark">Postres</button>
   </nav>
-  ---------------------------------------------------------------------------------------------------------  
+  ----------------------------------------------------------------------------------------------------------------  
   
   <%if(PresButtonPizzas!=null){%>
-    <label>Cantidad:</label> 
+    <label><b>Cantidad:</b></label> 
     <select name="cantidad">  
     <option value="0.5">1/2</option>
     <option value="1">1</option>
@@ -62,18 +64,19 @@
   <%for(Producto p: listaProductos){
     if(p. getEstado() && p.getTipoProducto().equals("Pizzas")){
     Precio precio = precioLogic.GetOne(p.getNroPrecio());%>
+    <div class="border border-dark bg-light w-50">
     <h3><%=p.getNombreProducto()%></h3>
     <label><%=p.getDescripcion()%></label>
     <br>    
     <img src="/ImagenesPizzeria/<%=p.getImagen() %>" width="152" height="113">
     <h3>$<%=precio.getPrecio()%></h3> 	
-    <button name="agregarACarrito" type="submit" value="<%=p.getId_producto()%>">AGREGAR A CARRITO</button>
+    <button name="agregarACarrito" type="submit" value="<%=p.getId_producto()%>" class="btn btn-primary text-dark border border-dark mb-1">AGREGAR A CARRITO</button>
+    </div>
     <br>
-    -------------------------------------------------------------------------------------------------------
   <%}%>
   <%}%>
   <%}else if(PresButtonBebidas!=null){%> 
-     <label>Cantidad:</label> 
+     <label><b>Cantidad:</b></label> 
      <select name="cantidad">  
      <option value="1">1</option>
      <option value="2">2</option>
@@ -84,18 +87,19 @@
    <%for(Producto p: listaProductos){ 
 	 if(p. getEstado() && p.getTipoProducto().equals("Bebidas")){ 
      Precio precio = precioLogic.GetOne(p.getNroPrecio()); %>
+     <div class="border border-dark bg-light w-50">
      <h3><%=p.getNombreProducto()%></h3>
      <label><%=p.getDescripcion()%></label>
      <br>    
      <img src="/ImagenesPizzeria/<%=p.getImagen() %>" width="152" height="113">
      <h3>$<%=precio.getPrecio()%></h3> 
-     <button name="agregarACarrito" type="submit" value="<%=p.getId_producto()%>">AGREGAR A CARRITO</button>
+     <button name="agregarACarrito" type="submit" value="<%=p.getId_producto()%>" class="btn btn-primary text-dark border border-dark mb-1">AGREGAR A CARRITO</button>
+     </div>
      <br>
-      -------------------------------------------------------------------------------------------------------
   <%}%>
   <%}%>
   <%}else if(PresButtonPostres!=null){%>
-     <label>Cantidad:</label> 
+     <label><b>Cantidad:</b></label> 
      <select name="cantidad">  
      <option value="1">1</option>
      <option value="2">2</option>
@@ -106,14 +110,15 @@
    <%for(Producto p: listaProductos){
      if(p. getEstado() && p.getTipoProducto().equals("Postres")){
      Precio precio = precioLogic.GetOne(p.getNroPrecio());%>
+     <div class="border border-dark bg-light w-50">
      <h3><%=p.getNombreProducto()%></h3>
      <label><%=p.getDescripcion()%></label>
      <br>    
      <img src="/ImagenesPizzeria/<%=p.getImagen() %>" width="152" height="113">
      <h3>$<%=precio.getPrecio()%></h3> 
-     <button name="agregarACarrito" type="submit" value="<%=p.getId_producto()%>">AGREGAR A CARRITO</button>
+     <button name="agregarACarrito" type="submit" value="<%=p.getId_producto()%>" class="btn btn-primary text-dark border border-dark mb-1">AGREGAR A CARRITO</button>
      <br>
-     -------------------------------------------------------------------------------------------------------
+     </div>
   <%}%>   
   <%}%>
   <%}%>
@@ -121,5 +126,8 @@
  
   <%}%>
 </form>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

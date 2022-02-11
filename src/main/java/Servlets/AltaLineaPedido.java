@@ -85,7 +85,7 @@ public class AltaLineaPedido extends HttpServlet {
 			session.setAttribute("carrito", carrito);
 			request.getRequestDispatcher("./AltaLineaPedido.jsp").forward(request, response); 	
 		}
-		else if(request.getParameter("realizarPedido")!=null)
+		else if(request.getParameter("realizarPedido")!=null)//****SE VERIFICA SI SE LE DIO CLICK AL BOTON REALIZAR PEDIDO
 		{
 			if(carrito.size() == 0)
 			{

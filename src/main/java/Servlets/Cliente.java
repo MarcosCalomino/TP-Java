@@ -34,13 +34,13 @@ public class Cliente extends HttpServlet {
 		LinkedList<Pedido> listaTodosLosPedidos;
 		LinkedList<Pedido> listaPedidosDeCliente;
 		LinkedList<LineaPedido> listaLineasPedido;
+		
 		if(request.getParameter("NuevoPedido")!=null)
 		{
 			request.getRequestDispatcher("./AltaLineaPedido.jsp").forward(request, response); 
 		}
 		else if(request.getParameter("pedidos")!=null)			
 		{
-			
 			listaTodosLosPedidos = pedidoLogic.GetAllPedidos();
 			listaPedidosDeCliente  = new LinkedList<Pedido>();
 			for(Pedido p: listaTodosLosPedidos)

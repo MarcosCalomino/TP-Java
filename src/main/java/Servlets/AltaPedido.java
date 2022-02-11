@@ -72,6 +72,7 @@ public class AltaPedido extends HttpServlet {
 					lineaPedidoLogic.AltaLineaPedido(lp);
 				}
 				request.setAttribute("PedidoRealiazado", "true");
+				session.setAttribute("carrito", null);
 				request.getRequestDispatcher("./Cliente.jsp").forward(request, response);
 			}
 			
