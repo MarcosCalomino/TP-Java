@@ -42,34 +42,33 @@ public class Login extends HttpServlet {
         BugManager bugManager = new BugManager();      
         bugManager.setError(clienteLogic.verificarDatos(cliente, password));  
         
-        if(bugManager.getError().equals(TipoError.NOEXISTE))
+        if(bugManager.getError().equals(TipoError.NOEXISTE))//TOMA ESTE CAMINO LA CUENTA CON LA QUE SE QUIERE INICIAR SESION ES INEXISTENTE
         {
         	response.getWriter().append("Cuenta inexistente").append(request.getContextPath());
   			response.setContentType("text/html");
   			response.getWriter().println("<a href=\"./Registrarse.jsp\">Registrarse</a>");
         }
-        else if(bugManager.getError().equals(TipoError.CAMPOSENBLANCO)) 
+        else if(bugManager.getError().equals(TipoError.CAMPOSENBLANCO))//TOMA ESTE CAMINO SI USUARIO/CONTRASEÑA ESTAN EN BLANCO 
         { 	
         	request.setAttribute("error", "CamposEnBlanco");
         	request.getRequestDispatcher("./Login.jsp").forward(request, response);  
         }
-        else if(bugManager.getError().equals(TipoError.BADPHONE))
+        else if(bugManager.getError().equals(TipoError.BADPHONE))//TOMA ESTE CAMINO SI EL NUMERO DE TELEFONO ESTA MAL ESCRITO
         {
         	request.setAttribute("error", "telefonoIncorrecto");
         	request.setAttribute("telefono", cliente.getTelefono());
         	request.getRequestDispatcher("./Login.jsp").forward(request, response); 
         }
-        else if(bugManager.getError().equals(TipoError.PASSWORINCORRECTA))
+        else if(bugManager.getError().equals(TipoError.PASSWORINCORRECTA))//TOMA ESTE CAMINO SI LA CONTRASEÑA ES INCORRECTA
         {
-        	//cliente = clienteLogic.getOne(cliente);
         	request.setAttribute("telefono", telefono);
         	request.setAttribute("error", "PasswordIncorrecta");   	
         	request.getRequestDispatcher("./Login.jsp").forward(request, response); 
         }
-        else if(bugManager.getError().equals(TipoError.OK)) 
+        else if(bugManager.getError().equals(TipoError.OK))//TOMA ESTE CAMINO SI EL INICIO DE SESSION ES CORRECTO 
         { 
         	cliente = clienteLogic.getOne(cliente);
-        	if(cliente.getTipoPermisos().equals("admin"))
+        	if(cliente.getTipoPermisos().equals("admin"))//SE VERIFICA SI QUIEN INICIO SESSION TIENE PERMISOS DE DE CLIENTE O ADMIN
         	{
         		HttpSession sessionLogin= request.getSession();
         		HttpSession sessionCantPedidos = request.getSession();
