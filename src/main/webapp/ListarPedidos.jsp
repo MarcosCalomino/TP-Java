@@ -22,23 +22,23 @@
 <body>
 <form action="ListarPedidos" method="get">
 <%if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
-else {%>
-  <%String errorEnHora = (String)request.getAttribute("errorEnHora");
-    String notificacion = (String)request.getAttribute("notificacion");
-    String enEspera = (String)request.getAttribute("enEspera");
-    String atendidos = (String)request.getAttribute("atendidos");
-    String atender = (String)request.getAttribute("atender");
-    LinkedList<Pedido> listaPedidos = (LinkedList<Pedido>)request.getAttribute("listaPedidos");
-    LinkedList<LineaPedido> listaLineaPedidosPorPedidos = new LinkedList<LineaPedido>();
-    LineaPedidoLogic lineaPedidoLogic = new LineaPedidoLogic();
-    ClienteLogic clienteLogic = new ClienteLogic();
-    Cliente cliente = new Cliente();
-    Pedido pedido = new Pedido();
-    PedidoLogic pedidoLogic = new PedidoLogic();
-    Producto producto = new Producto();
-    ProductoLogic productoLogic = new ProductoLogic();%>
+else {
+String errorEnHora = (String)request.getAttribute("errorEnHora");
+String notificacion = (String)request.getAttribute("notificacion");
+String enEspera = (String)request.getAttribute("enEspera");
+String atendidos = (String)request.getAttribute("atendidos");
+String atender = (String)request.getAttribute("atender");
+LinkedList<Pedido> listaPedidos = (LinkedList<Pedido>)request.getAttribute("listaPedidos");
+LinkedList<LineaPedido> listaLineaPedidosPorPedidos = new LinkedList<LineaPedido>();
+LineaPedidoLogic lineaPedidoLogic = new LineaPedidoLogic();
+ClienteLogic clienteLogic = new ClienteLogic();
+Cliente cliente = new Cliente();
+Pedido pedido = new Pedido();
+PedidoLogic pedidoLogic = new PedidoLogic();
+Producto producto = new Producto();
+ProductoLogic productoLogic = new ProductoLogic();%>
 
-  <nav class="navbar navbar-light bg-light border border-dark">
+<nav class="navbar navbar-light bg-light border border-dark">
    <div class="container-fluid justify-content-start">
     <div class="row">
      <div class="col">
@@ -49,9 +49,9 @@ else {%>
      </div>
     </div>  
    </div>
-  </nav>
-<!------------------------------------------------------------------------------------------------------------------------------------->
-  <nav class="navbar navbar-light bg-light border-bottom">
+</nav>
+
+<nav class="navbar navbar-light bg-light border-bottom">
    <div class="container-fluid justify-content-start">
     <div class="row">
       <div class="col">
@@ -62,15 +62,15 @@ else {%>
       </div>
     </div>
    </div> 
-  </nav>
-  <br>
-  <br>
-  <%if(notificacion!=null){%>
-  <p><span style="color: #00ff00;">Operacion exitosa</span></p>
-  <%}%>
+</nav>
+<br>
+<br>
+<%if(notificacion!=null){%>
+<p><span style="color: #00ff00;">Operacion exitosa</span></p>
+<%}%>
   
   <!-- SI SE LE DA CLICK AL BOTON PEDIDOS EN ESPERA SE MUESTRA LO SIEGUIENTE -->
-  <%if(enEspera!=null){%>
+<%if(enEspera!=null){%>
   <h3>PEDIDOS EN ESPERA</h3>
   <%for(Pedido p: listaPedidos)
   {
@@ -108,7 +108,6 @@ else {%>
       <%}%>
       <label>Precio Total: <%=p.getPrecioTotal() %></label><br>
       </div>
-<!------------------------------------------------------------------------------------------------------------------------------------->
      <%}%>
   <%} else if(atender!=null){
       pedido = (Pedido)request.getAttribute("pedido"); 

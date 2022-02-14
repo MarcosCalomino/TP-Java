@@ -35,11 +35,11 @@ public class Cliente extends HttpServlet {
 		LinkedList<Pedido> listaPedidosDeCliente;
 		LinkedList<LineaPedido> listaLineasPedido;
 		
-		if(request.getParameter("NuevoPedido")!=null)
+		if(request.getParameter("NuevoPedido")!=null)//SI SE LE DA CLICK AL BOTON Realizar Pedido TOMA ESTE CAMINO
 		{
 			request.getRequestDispatcher("./AltaLineaPedido.jsp").forward(request, response); 
 		}
-		else if(request.getParameter("pedidos")!=null)			
+		else if(request.getParameter("pedidos")!=null)//SI SE LE DA CLICK AL BOTON Pedidos TOMA ESTE CAMINO			
 		{
 			listaTodosLosPedidos = pedidoLogic.GetAllPedidos();
 			listaPedidosDeCliente  = new LinkedList<Pedido>();
@@ -53,7 +53,7 @@ public class Cliente extends HttpServlet {
 			request.setAttribute("listaPedidosDeCliente", listaPedidosDeCliente);
 			request.getRequestDispatcher("./Cliente.jsp").forward(request, response); 
 		}
-		else if(request.getParameter("cerrarSession")!=null)
+		else if(request.getParameter("cerrarSession")!=null)//SI SE LE DA CLICK AL BOTON Log Out TOMA ESTE CAMINO
 		{
 			session.setAttribute("sessionLogin", null);
 			request.getRequestDispatcher("./Login.jsp").forward(request, response); 

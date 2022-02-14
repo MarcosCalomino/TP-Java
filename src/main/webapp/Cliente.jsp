@@ -14,11 +14,12 @@
 
 <body>
 <form action="Cliente" method="post" enctype="multipart/form-data">
-  <%if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
-  else{%> 
-  <%String pedidoRealizado = (String)request.getAttribute("PedidoRealiazado");
-    LinkedList<Pedido> lista = (LinkedList<Pedido>)request.getAttribute("listaPedidosDeCliente");
-    %>
+ <%if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
+ else{%> 
+ <%
+ String pedidoRealizado = (String)request.getAttribute("PedidoRealiazado");
+ LinkedList<Pedido> lista = (LinkedList<Pedido>)request.getAttribute("listaPedidosDeCliente");
+ %>
   <nav class="navbar navbar-light bg-light border border-dark">
    <div class="container-fluid justify-content-start">
     <div class="row-12">

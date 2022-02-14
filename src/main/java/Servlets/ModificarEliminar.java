@@ -32,64 +32,45 @@ public class ModificarEliminar extends HttpServlet {
 		
 		if(request.getParameter("modificar")!=null)//*****SE VERIFICAR SI SE LE DIO AL BOTON MODIFICAR*****
 		{
-		   try {
-			   producto = new Producto();           	   
-			   producto.setId_producto(Integer.parseInt(request.getParameter("modificar")));	
-			   producto.setDescripcion(request.getParameter("descripcionProducto"));		   
-			   if(Integer.parseInt(request.getParameter("estadoProducto"))==1)
-		       {
-		        	producto.setEstado(true);
-		       }
-		       else
-		       {
-		        	producto.setEstado(false);
-		       }
-			   producto.setNombreProducto(request.getParameter("nombreProducto"));
-			   producto.setTipoProducto(request.getParameter("tipoProducto"));
-			   Precio precio = new Precio(Integer.parseInt(request.getParameter("nroPrecio")), 
-	                      Double.parseDouble(request.getParameter("precioProducto")), 
-	                      productoLogic.GetFechaActual());
-			   precioLogic.ModificarPrecio(precio);	
-			   producto.setNroPrecio(precio.getNroPrecio());
-			   Part filePart = request.getPart("imagenProducto");
-			   File file = productoLogic.ManageImage(filePart);	
-			   producto.setImagen(file.getName());
-			   
-			   productoLogic.ModificarProducto(producto);
-			   request.setAttribute("notificacion", "modificado");
-			   request.getRequestDispatcher("./Admin.jsp").forward(request, response);
-//			   response.getWriter().append("PRODUCTO MODIFICADO CON EXITO").append(request.getContextPath());
-//	 		   response.setContentType("text/html");
-//	 		   response.getWriter().println("<a href=\"./Admin.jsp\"> MENU DE INICIO </a>");
-		   }catch(NumberFormatException e){				
-			   request.setAttribute("error", "erroEnPrecio");
-			   producto.setId_producto(Integer.parseInt(request.getParameter("modificar")));	
-			   producto.setDescripcion(request.getParameter("descripcionProducto"));		   
-			   if(Integer.parseInt(request.getParameter("estadoProducto"))==1)
-		       {
-		        	producto.setEstado(true);
-		       }
-		       else
-		       {
-		        	producto.setEstado(false);
-		       }
-			   producto.setNombreProducto(request.getParameter("nombreProducto"));
-			   producto.setTipoProducto(request.getParameter("tipoProducto"));
-			   producto.setNroPrecio(999);
-			   request.setAttribute("producto", producto);
-			   request.setAttribute("modo", "modoModificar");
-			   request.getRequestDispatcher("./ModificarEliminar.jsp").forward(request, response);
-		   }catch(NullPointerException e){
-			   request.setAttribute("error", "errorCampoVacio");
-			   request.setAttribute("producto", producto);
-			   request.setAttribute("modo", "modoModificar");
-			   request.getRequestDispatcher("./ModificarEliminar.jsp").forward(request, response);
-		   }catch(IllegalArgumentException e) {
-			   request.setAttribute("error", "errorCampoVacio");
-			   request.setAttribute("producto", producto);
-			   request.setAttribute("modo", "modoModificar");
-			   request.getRequestDispatcher("./ModificarEliminar.jsp").forward(request, response);
-		   }	  
+			try {
+				producto = new Producto(); 
+				producto.setId_producto(Integer.parseInt(request.getParameter("modificar")));
+				producto.setNombreProducto(request.getParameter("nombreProducto"));
+				producto.setDescripcion(request.getParameter("descripcionProducto"));
+				producto.setTipoProducto(request.getParameter("tipoProducto"));
+				if(Integer.parseInt(request.getParameter("estadoProducto"))==1)
+			    {
+			       producto.setEstado(true);
+			    }
+			    else
+			    {
+			       producto.setEstado(false);
+			    }
+				Precio precio = new Precio(Integer.parseInt(request.getParameter("nroPrecio")), 
+	                                       Double.parseDouble(request.getParameter("precioProducto")), 
+	                                       productoLogic.GetFechaActual());
+				precioLogic.ModificarPrecio(precio);
+				producto.setNroPrecio(precio.getNroPrecio());
+				Part filePart = request.getPart("imagenProducto");
+				File file = productoLogic.ManageImage(filePart);	
+				producto.setImagen(file.getName());
+				   
+				productoLogic.ModificarProducto(producto);
+				request.setAttribute("notificacion", "modificado");
+				request.getRequestDispatcher("./Admin.jsp").forward(request, response);
+			}catch(NumberFormatException e) {
+				 request.setAttribute("error", "erroEnPrecio");
+				 producto.setNroPrecio(Integer.parseInt(request.getParameter("nroPrecio")));
+				 request.setAttribute("producto", producto);
+				 request.setAttribute("modo", "modoModificar");
+				 request.getRequestDispatcher("./ModificarEliminar.jsp").forward(request, response);
+			}catch(IllegalArgumentException e) {
+				 request.setAttribute("error", "errorCampoVacio");
+				 request.setAttribute("producto", producto);
+				 request.setAttribute("modo", "modoModificar");
+				 request.getRequestDispatcher("./ModificarEliminar.jsp").forward(request, response);
+			}
+			
 		}
 		else if(request.getParameter("eliminar")!=null)//*****SE VERIFICAR SI SE LE DIO AL BOTON ELIMINAR*****
 		{
@@ -99,9 +80,6 @@ public class ModificarEliminar extends HttpServlet {
 			   productoLogic.EliminarProducto(producto);
 			   request.setAttribute("notificacion", "eliminado");
 			   request.getRequestDispatcher("./Admin.jsp").forward(request, response);
-//			   response.getWriter().append("PRODUCTO ELIMINADO CON EXITO").append(request.getContextPath());
-//	 		   response.setContentType("text/html");
-//	 		   response.getWriter().println("<a href=\"./Admin.jsp\"> MENU DE INICIO </a>");
 		}
 		else if(request.getParameter("menues")!=null)//*****SE VERIFICA SI SE LE DIO CLICK AL BOTON MENUES*****
 		{

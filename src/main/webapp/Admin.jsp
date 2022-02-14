@@ -16,15 +16,18 @@
 
 <body>
 <form action="Admin" method="post">
-<%String pedidos = (String)request.getAttribute("pedidos");
-  String menues = (String)request.getAttribute("menues");
-  String tipoProducto = (String)request.getAttribute("tipoProducto");
-  String notificacion = (String)request.getAttribute("notificacion");
-  PedidoLogic pedidoLogic = new PedidoLogic();
-  LinkedList<Pedido> listaPedidos = pedidoLogic.GetAllPedidos("espera");
-  if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
-  else {%>
-  <nav class="navbar navbar-light bg-light border border-dark">
+
+<%
+if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
+else {
+String pedidos = (String)request.getAttribute("pedidos");
+String menues = (String)request.getAttribute("menues");
+String tipoProducto = (String)request.getAttribute("tipoProducto");
+String notificacion = (String)request.getAttribute("notificacion");
+PedidoLogic pedidoLogic = new PedidoLogic();
+LinkedList<Pedido> listaPedidos = pedidoLogic.GetAllPedidos("espera");
+%>
+<nav class="navbar navbar-light bg-light border border-dark">
    <div class="container-fluid justify-content-start">
     <div class="row">
      <div class="col">
@@ -35,23 +38,24 @@
      </div>
     </div>
    </div> 
-  </nav>
-  <br>
-  <br>
- <!------------------------------------------------------------------------------------------------------------------------------------->
+</nav>
+<br>
+<br>
   
-  <%if(notificacion != null){%>
-  <%if(notificacion.equals("modificado")){ %>
+<%if(notificacion != null){%>
+<%if(notificacion.equals("modificado")){ %>
     <p><span style="color: #00ff00;">Producto Modificado con exito</span></p>
-  <%} else if(notificacion.equals("eliminado")){%>
+<%} else if(notificacion.equals("eliminado")){%>
     <p><span style="color: #00ff00;">Producto Eliminado con exito</span></p>
-  <%} else if(notificacion.equals("cargado")){%>
+<%} else if(notificacion.equals("cargado")){%>
     <p><span style="color: #00ff00;">Producto cargado con exito</span></p>
-  <%}else if(notificacion.equals("noCargado")){%>
+<%}else if(notificacion.equals("noCargado")){%>
     <p><span style="color: #ff0000;">Producto no cargado(nombre/descripcion estan en blanco)</span></p>
-  <%}%>  
-  <%}%>
- <!--*** SI LE DA CLICK A MENUES SE MUESTRA ESTA PARTE -->
+<%}%>  
+<%}%>
+
+
+ <!--*****SI LE DA CLICK A MENUES SE MUESTRA ESTA PARTE*****-->
  <%if(menues!=null){%>
  <h1>Tipos de Productos</h1>
  <br>

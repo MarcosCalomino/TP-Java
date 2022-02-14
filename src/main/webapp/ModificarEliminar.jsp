@@ -34,17 +34,25 @@ else {%>
   String modo = (String)request.getAttribute("modo");
   PrecioLogic precioLogic = new PrecioLogic();
   String error = (String)request.getAttribute("error");
-  Precio precio = precioLogic.GetOne(producto.getNroPrecio());%>
+  Precio precio = precioLogic.GetOne(producto.getNroPrecio()); %>
 <%if(modo.equals("modoModificar")){%>
     <input type="hidden" name="tipoProducto" value="<%=producto.getTipoProducto()%>"><br>
     <input type="hidden" name="nroPrecio" value="<%=producto.getNroPrecio()%>"><br>
     <input name="nombreProducto" placeholder="Ingrese nombre" value="<%=producto.getNombreProducto()%>" type="text" class="form-control w-50"><br>
     <textarea name="descripcionProducto" placeholder="descripcion" class="form-control w-50"><%=producto.getDescripcion()%></textarea><br>
+    <%if(precio==null){ %>
+    <div class="input-group mb-3 w-50">
+     <span class="input-group-text">$</span>
+      <input name="precioProducto" placeholder="precio" type="text" class="form-control" value=""><br>
+     <span class="input-group-text">.00</span>
+    </div>
+    <%} else {%>
     <div class="input-group mb-3 w-50">
      <span class="input-group-text">$</span>
       <input name="precioProducto" placeholder="precio" type="text" class="form-control" value="<%=precio.getPrecio()%>"><br>
      <span class="input-group-text">.00</span>
     </div>
+    <%}%>
     <%if(producto.getEstado()==true) {%>
     <font size="6">Habilitado</font>
     <select name="estadoProducto" class="btn btn-outline-secondary dropdown-toggle">  
@@ -79,13 +87,13 @@ else {%>
 <%}%>
 <%if(error!=null){%>
   <%if(error.equals("erroEnPrecio")){%>
-  <p><span style="color: #ff0000;">Error en precio</span></p>
+  <h4><span style="color: #ff0000;">Error en precio</span></h4>
   <%} 
   else if(error.equals("errorCampoVacio")){%>
-  <p><span style="color: #ff0000;">Existen campos vacios</span></p>
+  <h4><span style="color: #ff0000;">Existen campos vacios</span></h4>
   <%}
   else if(error.equals("")){%>
-  <p><span style="color: #ff0000;"></span></p>
+  <h4><span style="color: #ff0000;"></span></h4>
   <%}%>
 <%}%>    
 

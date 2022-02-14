@@ -16,19 +16,19 @@
 </head>
 <body>
 <form action="AltaLineaPedido" method="post" enctype="multipart/form-data">
-  <%if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
-  else{%>
-  <%
-  String errorCarritoVacio = (String)request.getAttribute("errorCarritoVacio");
-  String PresButtonPizzas = (String)request.getAttribute("PresButtonPizzas");
-  String PresButtonBebidas = (String)request.getAttribute("PresButtonBebidas");
-  String PresButtonPostres = (String)request.getAttribute("PresButtonPostres"); 
-  LinkedList<LineaPedido> carrito = (LinkedList<LineaPedido>)session.getAttribute("carrito");
-  LinkedList<Producto> listaProductos = (LinkedList<Producto>)request.getAttribute("listaProductos");
-  PrecioLogic precioLogic = new PrecioLogic();  
-  %>
+ <%if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
+ else{
+	 
+ String errorCarritoVacio = (String)request.getAttribute("errorCarritoVacio");
+ String PresButtonPizzas = (String)request.getAttribute("PresButtonPizzas");
+ String PresButtonBebidas = (String)request.getAttribute("PresButtonBebidas");
+ String PresButtonPostres = (String)request.getAttribute("PresButtonPostres"); 
+ LinkedList<LineaPedido> carrito = (LinkedList<LineaPedido>)session.getAttribute("carrito");
+ LinkedList<Producto> listaProductos = (LinkedList<Producto>)request.getAttribute("listaProductos");
+ PrecioLogic precioLogic = new PrecioLogic();  
+ %>
   
-  <%if(carrito!=null){%>
+<%if(carrito!=null){%>
    <nav>
    <h2>PEDIDO</h2>
    <%ProductoLogic pl = new ProductoLogic();
@@ -43,7 +43,7 @@
      <button name="realizarPedido" type="submit" style="background-color:green">REALIZAR PEDIDO</button>
      <br>
   </nav>
-  <%}%>
+<%}%>
   ----------------------------------------------------------------------------------------------------------------  
   <nav>
    <button name="pizzas" type="submit" class="btn btn-outline-dark">Pizzas</button>
@@ -51,8 +51,7 @@
    <button name="postres" type="submit" class="btn btn-outline-dark">Postres</button>
   </nav>
   ----------------------------------------------------------------------------------------------------------------  
-  
-  <%if(PresButtonPizzas!=null){%>
+<%if(PresButtonPizzas!=null){%>
     <label><b>Cantidad:</b></label> 
     <select name="cantidad">  
     <option value="0.5">1/2</option>
@@ -62,7 +61,7 @@
     <option value="2.5">2 y 1/2</option>
     </select>
   <%for(Producto p: listaProductos){
-    if(p. getEstado() && p.getTipoProducto().equals("Pizzas")){
+    if(p.getEstado() && p.getTipoProducto().equals("Pizzas")){
     Precio precio = precioLogic.GetOne(p.getNroPrecio());%>
     <div class="border border-dark bg-light w-50">
     <h3><%=p.getNombreProducto()%></h3>
@@ -85,7 +84,7 @@
      <option value="5">5</option>
      </select>	
    <%for(Producto p: listaProductos){ 
-	 if(p. getEstado() && p.getTipoProducto().equals("Bebidas")){ 
+	 if(p.getEstado() && p.getTipoProducto().equals("Bebidas")){ 
      Precio precio = precioLogic.GetOne(p.getNroPrecio()); %>
      <div class="border border-dark bg-light w-50">
      <h3><%=p.getNombreProducto()%></h3>
@@ -108,7 +107,7 @@
      <option value="5">5</option>
      </select>	
    <%for(Producto p: listaProductos){
-     if(p. getEstado() && p.getTipoProducto().equals("Postres")){
+     if(p.getEstado() && p.getTipoProducto().equals("Postres")){
      Precio precio = precioLogic.GetOne(p.getNroPrecio());%>
      <div class="border border-dark bg-light w-50">
      <h3><%=p.getNombreProducto()%></h3>

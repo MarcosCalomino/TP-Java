@@ -35,7 +35,7 @@
    </div> 
 </nav>
   <h3>INGRESE DATOS DEL PRODUCTO</h3><br>
-  <%if(avisoDeCarga!=null) {%>
+  <%if(avisoDeCarga!=null){%>
     <%if(avisoDeCarga.equals("cargado")){%>
       <p><span style="color: #00ff00;">Producto cargado con exito</span></p>
     <%} else {%>

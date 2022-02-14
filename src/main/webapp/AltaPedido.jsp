@@ -17,22 +17,24 @@
 <form action="AltaPedido" method="get">
 <%if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
   else{%>
-  <%LinkedList<LineaPedido> carrito = (LinkedList<LineaPedido>)session.getAttribute("carrito");
-    String errorCallePrincipal = (String)request.getAttribute("errorCallePrincipal");
-    String errorAltura = (String)request.getAttribute("errorAltura");
-    Double precioTotal = 0.0;%>
+<%
+LinkedList<LineaPedido> carrito = (LinkedList<LineaPedido>)session.getAttribute("carrito");
+String errorCallePrincipal = (String)request.getAttribute("errorCallePrincipal");
+String errorAltura = (String)request.getAttribute("errorAltura");
+Double precioTotal = 0.0;
+%>
   
-   <nav class="border border-dark rounded">
-   <h2>PEDIDO</h2>
-   <%ProductoLogic pl = new ProductoLogic();
-     for(LineaPedido lp: carrito){
-     Producto producto = pl.GetOne(lp.getIdProducto());%>
-     <label><b><%=producto.getNombreProducto()%></b></label> Cantidad:<lable><%=lp.getCantidad()%></lable>....$<label><%=lp.getPrecioLineaPedido()%></label><br> 
-     <%precioTotal = precioTotal + lp.getPrecioLineaPedido(); %>
-   <%}%> 
-     <br>
-     <label>Precio Total: <%=precioTotal %></label>
-  </nav>
+<nav class="border border-dark rounded">
+ <h2>PEDIDO</h2>
+  <%ProductoLogic pl = new ProductoLogic();
+    for(LineaPedido lp: carrito){
+    Producto producto = pl.GetOne(lp.getIdProducto());%>
+    <label><b><%=producto.getNombreProducto()%></b></label> Cantidad:<lable><%=lp.getCantidad()%></lable>....$<label><%=lp.getPrecioLineaPedido()%></label><br> 
+    <%precioTotal = precioTotal + lp.getPrecioLineaPedido(); %>
+  <%}%> 
+    <br>
+    <label>Precio Total: <%=precioTotal %></label>
+</nav>
   <br>
   <br>
   <h3>INGRESE DIRECCIÛN</h3>

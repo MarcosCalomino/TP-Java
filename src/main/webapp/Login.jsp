@@ -10,10 +10,17 @@
 
 <body>
 <form action="Login" method="POST">
+
+
+
+<!-- *****DEFINICION DE VARIABLEs***** -->
 <%String error = (String)request.getAttribute("error");%>
 <%String telefono = (String)request.getAttribute("telefono");%>
 
-<%if(error == null){%>
+
+
+
+<%if(error == null){%> <!--*****CANDO SE INICIA LA PAGINA POR PRIMERA VES LA VARIABLE error ES NULL*****-->
 <div class="container border">
  <div class="row justify-content-center align-items-center">
   <div class="col-auto text-center p-5">
