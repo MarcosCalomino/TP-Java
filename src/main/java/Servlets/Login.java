@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
         {
         	response.getWriter().append("Cuenta inexistente").append(request.getContextPath());
   			response.setContentType("text/html");
-  			response.getWriter().println("<a href=\"./Registrarse.jsp\">Registrarse</a>");
+  			response.getWriter().println("<a href=\"./Registrarse.jsp\">Registrarse</a>"); 
         }
         else if(bugManager.getError().equals(TipoError.CAMPOSENBLANCO))//TOMA ESTE CAMINO SI USUARIO/CONTRASEÑA ESTAN EN BLANCO 
         { 	
