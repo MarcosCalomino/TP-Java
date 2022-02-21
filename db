@@ -1,0 +1,279 @@
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: pizzeria
+-- ------------------------------------------------------
+-- Server version	5.7.19-log
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cliente` (
+  `nombreCliente` varchar(45) NOT NULL,
+  `apellidoCliente` varchar(45) NOT NULL,
+  `nroCliente` int(11) NOT NULL AUTO_INCREMENT,
+  `telefono` varchar(45) NOT NULL,
+  `tipoPermisos` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`nroCliente`,`telefono`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cliente`
+--
+
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES ('Carlo','Magno',6,'2473464919','admin','5e43f6b24c4ea888af8a7647a3fc2efdd4e42fdbc5091a2da3c3bab0bc84779e'),('Marcos','Calomino',7,'4455667788','user','ad9849e72394aa94bd29a4a6c57ad684caa8a2cc106861eb5e3ce1860ede700f'),('Pedro','PicaPiedra',8,'3411234567','user','409d14f1d94e1f40ae11fe0395b28005d48569bc6c9281ddaa290b92fc4b3de8');
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `direccion_entrega`
+--
+
+DROP TABLE IF EXISTS `direccion_entrega`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `direccion_entrega` (
+  `calleSobre` varchar(45) NOT NULL,
+  `altura` int(11) NOT NULL,
+  `piso` varchar(45) DEFAULT NULL,
+  `id_direccion` int(11) NOT NULL AUTO_INCREMENT,
+  `calleEntre1` varchar(45) DEFAULT NULL,
+  `calleEntre2` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_direccion`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `direccion_entrega`
+--
+
+LOCK TABLES `direccion_entrega` WRITE;
+/*!40000 ALTER TABLE `direccion_entrega` DISABLE KEYS */;
+INSERT INTO `direccion_entrega` VALUES ('Melancolia',488,'',1,'','');
+/*!40000 ALTER TABLE `direccion_entrega` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `linea_pedido`
+--
+
+DROP TABLE IF EXISTS `linea_pedido`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `linea_pedido` (
+  `cantidad` double NOT NULL,
+  `nroLineaPedido` int(11) NOT NULL AUTO_INCREMENT,
+  `idProducto` int(11) NOT NULL,
+  `precioLineaPedido` double NOT NULL,
+  `idPedido` int(11) DEFAULT NULL,
+  PRIMARY KEY (`nroLineaPedido`),
+  KEY `idProducto_idx` (`idProducto`),
+  KEY `idPedido_idx` (`idPedido`),
+  CONSTRAINT `idPedido` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`nroPedido`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `idProducto` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`id_producto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `linea_pedido`
+--
+
+LOCK TABLES `linea_pedido` WRITE;
+/*!40000 ALTER TABLE `linea_pedido` DISABLE KEYS */;
+INSERT INTO `linea_pedido` VALUES (0.5,1,21,44.9,1),(2,2,52,1999.98,1),(2,3,14,266.66,1);
+/*!40000 ALTER TABLE `linea_pedido` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pedido`
+--
+
+DROP TABLE IF EXISTS `pedido`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pedido` (
+  `nroPedido` int(11) NOT NULL AUTO_INCREMENT,
+  `fechaHoraPedido` varchar(45) NOT NULL,
+  `horaEntrega` time DEFAULT NULL,
+  `precioTotal` float NOT NULL,
+  `estadoPedido` varchar(45) NOT NULL,
+  `nroCliente` int(11) NOT NULL,
+  `DireccionID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`nroPedido`),
+  KEY `nroCliente_idx` (`nroCliente`),
+  KEY `DireccionID_idx` (`DireccionID`),
+  CONSTRAINT `DireccionID` FOREIGN KEY (`DireccionID`) REFERENCES `direccion_entrega` (`id_direccion`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `nroCliente` FOREIGN KEY (`nroCliente`) REFERENCES `cliente` (`nroCliente`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pedido`
+--
+
+LOCK TABLES `pedido` WRITE;
+/*!40000 ALTER TABLE `pedido` DISABLE KEYS */;
+INSERT INTO `pedido` VALUES (1,'2022/02/18 07:05:18',NULL,2311.54,'espera',8,1);
+/*!40000 ALTER TABLE `pedido` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `precio`
+--
+
+DROP TABLE IF EXISTS `precio`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `precio` (
+  `nroPrecio` int(11) NOT NULL AUTO_INCREMENT,
+  `precioIndividual` float NOT NULL,
+  `fechaAsignacion` date NOT NULL,
+  PRIMARY KEY (`nroPrecio`)
+) ENGINE=InnoDB AUTO_INCREMENT=1060 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `precio`
+--
+
+LOCK TABLES `precio` WRITE;
+/*!40000 ALTER TABLE `precio` DISABLE KEYS */;
+INSERT INTO `precio` VALUES (135,32.9,'2022-01-05'),(136,89.8,'2022-01-03'),(137,89.8,'2022-01-03'),(138,99.9,'2022-01-03'),(139,99.9,'2022-02-11'),(140,300.3,'2022-01-05'),(141,223.22,'2022-01-05'),(142,223.22,'2022-01-05'),(143,233.4,'2022-01-05'),(144,123,'2022-01-24'),(145,999,'2022-01-05'),(150,89.87,'2022-02-11'),(151,89.8,'2022-02-11'),(152,666,'2022-01-24'),(999,133.33,'2022-02-14'),(1000,666,'2022-01-24'),(1001,666,'2022-01-24'),(1003,89.8,'2022-01-24'),(1004,99.9,'2022-01-24'),(1005,99.9,'2022-01-24'),(1006,123,'2022-01-24'),(1008,22,'2022-01-24'),(1009,123,'2022-01-31'),(1010,134,'2022-02-01'),(1012,445.87,'2022-02-07'),(1014,455.98,'2022-02-07'),(1015,32.89,'2022-02-07'),(1016,1999.32,'2022-02-08'),(1017,1999.32,'2022-02-08'),(1018,1999.32,'2022-02-08'),(1019,1999.32,'2022-02-08'),(1020,1999.32,'2022-02-08'),(1021,45.67,'2022-02-08'),(1022,45.67,'2022-02-08'),(1023,12,'2022-02-08'),(1024,189.98,'2022-02-08'),(1025,2989.32,'2022-02-11'),(1026,10000,'2022-02-11'),(1027,99.1,'2022-02-11'),(1028,99.1,'2022-02-11'),(1030,33.33,'2022-02-11'),(1031,33.33,'2022-02-11'),(1035,32.33,'2022-02-11'),(1040,33.99,'2022-02-11'),(1041,33.99,'2022-02-11'),(1042,44.99,'2022-02-11'),(1043,44.99,'2022-02-11'),(1052,10000,'2022-02-11'),(1054,100,'2022-02-11'),(1055,1000,'2022-02-11'),(1056,9,'2022-02-11'),(1057,35.89,'2022-02-14'),(1058,100,'2022-02-14'),(1059,999.99,'2022-02-14');
+/*!40000 ALTER TABLE `precio` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `precio_producto`
+--
+
+DROP TABLE IF EXISTS `precio_producto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `precio_producto` (
+  `precio` int(11) NOT NULL,
+  `productoName` varchar(45) NOT NULL,
+  PRIMARY KEY (`precio`,`productoName`),
+  KEY `precio_idx` (`precio`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `precio_producto`
+--
+
+LOCK TABLES `precio_producto` WRITE;
+/*!40000 ALTER TABLE `precio_producto` DISABLE KEYS */;
+/*!40000 ALTER TABLE `precio_producto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `producto`
+--
+
+DROP TABLE IF EXISTS `producto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `producto` (
+  `habilitado` tinyint(4) NOT NULL,
+  `nombreProducto` varchar(45) NOT NULL,
+  `descripcion` varchar(140) NOT NULL,
+  `nroPrecio` int(11) NOT NULL,
+  `tipoProducto` varchar(45) NOT NULL,
+  `imagen` varchar(45) NOT NULL,
+  `id_producto` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id_producto`),
+  KEY `nroPrecio_idx` (`nroPrecio`),
+  KEY `tipoProducto_idx` (`tipoProducto`),
+  CONSTRAINT `tipoProducto` FOREIGN KEY (`tipoProducto`) REFERENCES `tipo_producto` (`tipoProducto`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `producto`
+--
+
+LOCK TABLES `producto` WRITE;
+/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES (1,'Muzarella','pizza con queso, echa con mucho amor a la falopa',135,'Pizzas','imagen5.jpg11363424964310802812imagen5.jpg',5),(1,'Chivas real','Wisky de 15 años.',139,'Bebidas','wisky.png5173302774026693188wisky.png',9),(1,'Ratatuil','tomates cheerys, queso, rucula, aceitunas negras.',143,'Pizzas','imagen6.jpg17132881104606264511imagen6.jpg',13),(1,'Cosito de frutilla','Postre helado de frutilla, muy rico=)',999,'Postres','frutilla.jpg10019710389820367886frutilla.jpg',14),(1,'Piza Anchoa','queso salsa de tomaco y anchoas bien saldas',151,'Pizzas','imagen9.jpg17284317281936577454imagen9.jpg',21),(1,'Mega queso','Pizza con todos los quesos del mundo',999,'Pizzas','imagen3.jpg15705462935843584681imagen3.jpg',29),(1,'Muffin','Muffin de chocolate y marihuana',1020,'Postres','asd.jpg10816632448319495256asd.jpg',44),(1,'torta','torta de flan y chocolate',1024,'Postres','imagen8.jpg17900029692806005543imagen8.jpg',48),(1,'Jugo','Jugo de naranja',1059,'Bebidas','imagen10.jpg17470669627723636859imagen10.jpg',52);
+/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ticket`
+--
+
+DROP TABLE IF EXISTS `ticket`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ticket` (
+  `nroTicket` int(11) NOT NULL AUTO_INCREMENT,
+  `numeroPedido` int(11) NOT NULL,
+  `numeroCliente` int(11) NOT NULL,
+  PRIMARY KEY (`nroTicket`),
+  KEY `numeroPedido_idx` (`numeroPedido`),
+  KEY `numeroCliente_idx` (`numeroCliente`),
+  CONSTRAINT `numeroCliente` FOREIGN KEY (`numeroCliente`) REFERENCES `cliente` (`nroCliente`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `numeroPedido` FOREIGN KEY (`numeroPedido`) REFERENCES `pedido` (`nroPedido`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ticket`
+--
+
+LOCK TABLES `ticket` WRITE;
+/*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tipo_producto`
+--
+
+DROP TABLE IF EXISTS `tipo_producto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tipo_producto` (
+  `tipoProducto` varchar(45) NOT NULL,
+  PRIMARY KEY (`tipoProducto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tipo_producto`
+--
+
+LOCK TABLES `tipo_producto` WRITE;
+/*!40000 ALTER TABLE `tipo_producto` DISABLE KEYS */;
+INSERT INTO `tipo_producto` VALUES ('Bebidas'),('Pizzas'),('Postres');
+/*!40000 ALTER TABLE `tipo_producto` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-02-21  9:58:15
