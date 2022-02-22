@@ -20,7 +20,6 @@ public class Admin extends HttpServlet {
    
     public Admin() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 
@@ -31,8 +30,8 @@ public class Admin extends HttpServlet {
 		if(request.getParameter("menues")!= null)//*****SE VERIFICA SI SE LE DIO CLICK AL BOTON MENUES*****
 		{
 		    request.setAttribute("listaTipoProductos", productoLogic.GetAllTiposProductos());
-			request.setAttribute("menues", "true");
-			request.getRequestDispatcher("./Admin.jsp").forward(request, response);
+		    request.setAttribute("menues", "true");
+		    request.getRequestDispatcher("./Admin.jsp").forward(request, response);
 		}
 		else if (request.getParameter("pedidos")!=null)//*****SE VERIFICA SI SE LE DIO CLICK AL BOTON PEDIDOS*****
 		{
@@ -49,6 +48,10 @@ public class Admin extends HttpServlet {
 		{
 			request.setAttribute("tipoProducto", request.getParameter("agregar"));
 			request.getRequestDispatcher("./AltaProducto.jsp").forward(request, response);
+		}
+		else if(request.getParameter("cerrarSession")!=null)//SI SE LE DA CLICK AL BOTON Log Out TOMA ESTE CAMINO
+		{
+			request.getRequestDispatcher("./Login.jsp").forward(request, response); 
 		}
 	}
 
