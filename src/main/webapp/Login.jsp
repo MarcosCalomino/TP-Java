@@ -12,15 +12,17 @@
 <form action="Login" method="POST">
 
 
-
+<!-- ********************************* --> 
 <!-- *****DEFINICION DE VARIABLEs***** -->
-<%String error = (String)request.getAttribute("error");%>
-<%String telefono = (String)request.getAttribute("telefono");%>
+<!-- ********************************* -->
+<%String error = (String)request.getAttribute("error");//ESTA VARIABLE SIRVE PARA SABER SI HAY ALGUN ERROR, MIENTRAS SEA NULL NO HAY ERROR%>
+<%String telefono = (String)request.getAttribute("telefono");//GUARDA EL NUMERO DE TELEFONO QUE SE INGRESO%>
 
 
-
-
-<%if(error == null){%> <!--*****CANDO SE INICIA LA PAGINA POR PRIMERA VES LA VARIABLE error ES NULL*****-->
+<!-- *************************************************************************** -->
+<!--*****CANDO SE INICIA LA PAGINA POR PRIMERA VES LA VARIABLE error ES NULL*****-->
+<!-- *************************************************************************** -->
+<%if(error == null){%> 
 <div class="container border">
  <div class="row justify-content-center align-items-center">
   <div class="col-auto text-center p-5">
@@ -29,7 +31,7 @@
     <input name="telefono" type="text" placeholder="Ingrese su nro telefonico" value="">
    </div>
    <div class="row">
-    <input name="password" type="password" placeholder="Contraseña" value="">
+    <input name="password" type="password" placeholder="ContraseÃ±a" value="">
    </div>
    <div class="row">
     <input name="enviar" type="submit" value="Acceder" class="btn btn-primary text-dark">
@@ -49,7 +51,7 @@
     <input name="telefono" type="text" placeholder="Ingrese su nro telefonico" value="">
    </div>
    <div class="row">
-    <input name="password" type="password" placeholder="Contraseña" value="">
+    <input name="password" type="password" placeholder="ContraseÃ±a" value="">
    </div>
    <div class="row">
     <input name="enviar" type="submit" value="Acceder" class="btn btn-primary text-dark">
@@ -72,7 +74,7 @@
     <span style="color: #ff0000;"><label for="name">*Wrong phone</label></span>
    </div>
    <div class="row">
-    <input name="password" type="password" placeholder="Contraseña" value="">
+    <input name="password" type="password" placeholder="ContraseÃ±a" value="">
    </div>
    <div class="row">
     <input name="enviar" type="submit" value="Acceder" class="btn btn-primary text-dark">
@@ -92,7 +94,7 @@
    <input name="telefono" type="text" placeholder="Ingrese su nro telefonico" value="<%=telefono%>">
   </div>
   <div class="row">
-   <input name="password" type="password" placeholder="Contraseña" value="">
+   <input name="password" type="password" placeholder="ContraseÃ±a" value="">
   </div>
   <span style="color: #ff0000;"><label for="name">*Wrong password</label></span>
   <div class="row">
@@ -105,7 +107,6 @@
  </div>
 </div>
 <%}%>
-
 </form>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
