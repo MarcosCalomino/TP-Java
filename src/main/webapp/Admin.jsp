@@ -20,24 +20,30 @@
 <%
 if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
 else {
-String pedidos = (String)request.getAttribute("pedidos");
-String menues = (String)request.getAttribute("menues");
-String tipoProducto = (String)request.getAttribute("tipoProducto");
-String notificacion = (String)request.getAttribute("notificacion");
-PedidoLogic pedidoLogic = new PedidoLogic();
-LinkedList<Pedido> listaPedidos = pedidoLogic.GetAllPedidos("espera");
+String menues = (String)request.getAttribute("menues");//SIRVER PARA SABER SI SE LE DIO CLICK AL BOTON menu's, SI SE LE DIO CLICK A DICHO BOTON, ESTA VARIABLE DEJA DE ESTAR EN NULL(CUANDO LA PAGINA INICIA POR PRIMERA VEZ ESTA VARIABLE ESTA EN NULL)
+String tipoProducto = (String)request.getAttribute("tipoProducto");//¿?
+String notificacion = (String)request.getAttribute("notificacion");//SIRVE PARA NOTIFICAR!
+PedidoLogic pedidoLogic = new PedidoLogic();//INSTANCIA DE CLASE PedidoLogi 
+LinkedList<Pedido> listaPedidos = pedidoLogic.GetAllPedidos("espera");//SIRVE PARA SABER LA CANTIDA DE PEDIDOS EN ESPERA QUE HAY..(SE USA LA CANTIDA DE ELEMENTOS QUE TIENE ESTA LISTA)
 %>
 <nav class="navbar navbar-light bg-light border border-dark">
    <div class="container-fluid justify-content-start">
-    <div class="row">
-     <div class="col">
-      <button name="pedidos" type="submit" class="btn btn-outline-dark">Pedidos(<%= pedidoLogic.GetAllPedidos("espera").size()%>)</button>
+    <div class="row-12 me-1">
+     <div class="col">		
+		  <button name="pedidos" type="submit" class="btn btn-outline-dark">Pedidos(<%= pedidoLogic.GetAllPedidos("espera").size()%>)</button>
      </div>
-     <div class="col">
-      <button name="menues" type="submit" class="btn btn-outline-dark">Menu's</button>
+    </div>   
+    <div class="row-12 me-1">
+     <div class="col">		
+		  <button name="menues" type="submit" class="btn btn-outline-dark">Menu's</button>
+     </div>
+    </div>    
+    <div class="row-12">
+     <div class="col">		
+		 <button name="cerrarSession" type="submit" class="btn btn-outline-dark">Log Out</button>
      </div>
     </div>
-   </div> 
+   </div>
 </nav>
 <br>
 <br>
@@ -55,7 +61,7 @@ LinkedList<Pedido> listaPedidos = pedidoLogic.GetAllPedidos("espera");
 <%}%>
 
 
- <!--*****SI LE DA CLICK A MENUES SE MUESTRA ESTA PARTE*****-->
+<!--*****SI LE DA CLICK A MENUES SE MUESTRA ESTA PARTE******-->
  <%if(menues!=null){%>
  <h1>Tipos de Productos</h1>
  <br>
@@ -74,6 +80,7 @@ LinkedList<Pedido> listaPedidos = pedidoLogic.GetAllPedidos("espera");
  <%}%> 
  <%}%>
 <%}%>
+
 </form>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
