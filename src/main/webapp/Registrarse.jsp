@@ -3,18 +3,19 @@
     <%@page import = "Entities.Cliente" %>
 <!DOCTYPE html>
 <html>
+    
 <head>
- <meta charset="ISO-8859-1">
- <title>Registrarse</title>
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="ISO-8859-1">
+  <title>Registrarse</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 <form action="AltaCliente" method="POST">
-<%String error = (String)request.getAttribute("error"); 
-  Cliente cliente = (Cliente)request.getAttribute("cliente");%>
-
-
+<%
+String error = (String)request.getAttribute("error"); 
+Cliente cliente = (Cliente)request.getAttribute("cliente");
+%>
 <br>
 <%if(error==null){%>
 <div class="m-0 vh-100 row justify-content-center align-items-center">
@@ -53,7 +54,7 @@ else if(error.equals("contraseniasNoCoinciden")){%>
   <input name="telefono" type="text" placeholder="enter phone" value="<%=cliente.getTelefono()%>"><br>
   <input name="password" type="password" placeholder="enter password"><br>
   <input name="repetirPassword" type="password" placeholder="repeat password"><br>
-  <span style="color: #ff0000;"><label for="name">*Contraseñas no coinciden</label></span>
+  <span style="color: #ff0000;"><label for="name">*ContraseÃ±as no coinciden</label></span>
   <br>
   <input name="enviar" type="submit" value="Check in" class="btn btn-primary text-dark">
   <br>
@@ -89,7 +90,6 @@ else if(error.equals("apellidoIncorrecto")){%>
   <br>
  </div>
 </div> 
-
 <%}
 else if(error.equals("nombreIncorrecto")){%>
 <div class="m-0 vh-100 row justify-content-center align-items-center">
