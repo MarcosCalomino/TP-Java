@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import Entities.Producto;
-import Errores.BugManager;
 import Logic.ProductoLogic;
 @MultipartConfig
 @WebServlet("/AltaProducto")
@@ -24,8 +23,7 @@ public class AltaProducto extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductoLogic productoLogic = new ProductoLogic();	
-		//BugManager bugManager = new BugManager();            
+		ProductoLogic productoLogic = new ProductoLogic();	            
 		if(request.getParameter("menues")!= null)//SE VERIFICA SI SE LE DIO CLICK AL BOTON MENUES 
 		{
 		    request.setAttribute("listaTipoProductos", productoLogic.GetAllTiposProductos());
@@ -69,23 +67,13 @@ public class AltaProducto extends HttpServlet {
 				}
 				request.getRequestDispatcher("./AltaProducto.jsp").forward(request, response);
 			}
-//			if(p.getNombreProducto().isEmpty() || p.getDescripcion().isEmpty())
-//			{
-//				request.setAttribute("nombreProducto", request.getParameter("nombreProducto"));
-//				request.setAttribute("descripcionProducto", request.getParameter("descripcionProducto"));
-//				request.setAttribute("precioProducto", Double.parseDouble(request.getParameter("precioProducto")));
-//				request.setAttribute("tipoProducto", request.getParameter("tipoProducto"));
-//				request.setAttribute("error", "errorCampoVacio");
-//				request.getRequestDispatcher("./AltaProducto.jsp").forward(request, response);
-//			}
-			
+		
 		}
 		
 	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
