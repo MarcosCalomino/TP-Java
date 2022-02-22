@@ -16,7 +16,12 @@
 <body>
 <form action="ModificarEliminar" method="post" enctype="multipart/form-data">
 <%if(session.getAttribute("sessionLogin")==null){response.sendRedirect("Login.jsp");} //SI NO HAY UNA SESSION CREADA REDIRIGE A LA PAGINA LOGIN
-else {%>
+else {
+Producto producto = (Producto)request.getAttribute("producto");
+String modo = (String)request.getAttribute("modo");
+PrecioLogic precioLogic = new PrecioLogic();
+String error = (String)request.getAttribute("error");
+Precio precio = precioLogic.GetOne(producto.getNroPrecio());%>
 <nav class="navbar navbar-light bg-light border border-dark">
    <div class="container-fluid justify-content-start">
     <div class="row">
@@ -29,12 +34,6 @@ else {%>
     </div>
    </div> 
 </nav>
-<%}%>
-<%Producto producto = (Producto)request.getAttribute("producto");
-  String modo = (String)request.getAttribute("modo");
-  PrecioLogic precioLogic = new PrecioLogic();
-  String error = (String)request.getAttribute("error");
-  Precio precio = precioLogic.GetOne(producto.getNroPrecio()); %>
 <%if(modo.equals("modoModificar")){%>
     <input type="hidden" name="tipoProducto" value="<%=producto.getTipoProducto()%>"><br>
     <input type="hidden" name="nroPrecio" value="<%=producto.getNroPrecio()%>"><br>
@@ -96,31 +95,10 @@ else {%>
   <h4><span style="color: #ff0000;"></span></h4>
   <%}%>
 <%}%>    
-
+<%}%>  
 </form>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-   <%--  <input type="hidden" name="tipoProducto" value="<%=producto.getTipoProducto()%>"><br>
-    <input name="nombreProducto" placeholder="Ingrese nombre" value="<%=producto.getNombreProducto()%>" type="text"><br>
-    <textarea name="descripcionProducto" placeholder="descripcion"><%=producto.getDescripcion()%></textarea><br>
-    <input name="precioProducto" placeholder="precio" value="<%=precio.getPrecio()%>" type="text"><br>
-    <%if(producto.getEstado()==true) {%>
-    <label>Habilitado</label>
-    <select name="estadoProducto">  
-    <option value="1" selected>Si</option>
-    <option value="2">No</option>
-    </select><br>
-    <%} else {%>
-    <label>Habilitado</label>
-    <select name="estadoProducto">  
-    <option value="1">Si</option>
-    <option value="2"selected>No</option>
-    </select><br>
-    <%}%>
-    <label>Seleccione Imagen</label>
-    <input type="file" name="imagenProducto" value="">
-    <br> --%>
