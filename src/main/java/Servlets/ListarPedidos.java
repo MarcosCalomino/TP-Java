@@ -3,7 +3,7 @@ package Servlets;
 import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.util.LinkedList;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import Entities.Pedido;
 import Interfacez.VerificaNuevoPedido;
-import Logic.LineaPedidoLogic;
 import Logic.PedidoLogic;
 import Logic.ProductoLogic;
 
@@ -32,23 +31,19 @@ public class ListarPedidos extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PedidoLogic pedidoLogic = new PedidoLogic();
 		ProductoLogic productoLogic = new ProductoLogic();
-		LineaPedidoLogic lineaPedidoLogic = new LineaPedidoLogic();
-		LinkedList<Pedido> listaPedidos;
-		if(request.getParameter("enEspera")!=null)
+		if(request.getParameter("enEspera")!=null)//VERIFICA SI SE LE DIO CLICK AL BOTON Pedidos en Espera
 		{
 			request.setAttribute("enEspera", "true");
-			listaPedidos = pedidoLogic.GetAllPedidos("espera");
-			request.setAttribute("listaPedidos", listaPedidos);		
+			request.setAttribute("listaPedidos", pedidoLogic.GetAllPedidos("espera"));		
 			request.getRequestDispatcher("./ListarPedidos.jsp").forward(request, response);
 		}
-		else if(request.getParameter("atendidos")!=null)
+		else if(request.getParameter("atendidos")!=null)//VERIFICA SE SE LE DIO CLICK AL BOTON Pedidos atendidos
 		{
 			request.setAttribute("atendidos", "true");
-			listaPedidos = pedidoLogic.GetAllPedidos("atendido");
-			request.setAttribute("listaPedidos", listaPedidos);		
+			request.setAttribute("listaPedidos", pedidoLogic.GetAllPedidos("atendido"));		
 			request.getRequestDispatcher("./ListarPedidos.jsp").forward(request, response);
 		}
-		else if (request.getParameter("atender")!=null)
+		else if (request.getParameter("atender")!=null)//VERIFICA SI SE LE DIO CLICK AL BOTON ATENDER, PARA ANTENDER LOS PEDIDOS EN ESPERA
 		{
 			Pedido pedido = pedidoLogic.GetOne(Integer.parseInt(request.getParameter("atender")));
 			pedido.setNroPedido(Integer.parseInt(request.getParameter("atender")));
@@ -57,7 +52,7 @@ public class ListarPedidos extends HttpServlet {
 			request.getRequestDispatcher("./ListarPedidos.jsp").forward(request, response);
 		}
 		
-		else if(request.getParameter("listo")!=null)
+		else if(request.getParameter("listo")!=null)//VERIFICA SI SE LE DA CLICK AL BOTON Listo, QUE SIRVE PARA CONFIRMAR QUE SE ATENDÓ EL PEDIDO
 		{	
             try {
             	Pedido pedido = pedidoLogic.GetOne(Integer.parseInt(request.getParameter("listo")));
