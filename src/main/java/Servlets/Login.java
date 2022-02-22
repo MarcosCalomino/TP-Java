@@ -2,8 +2,6 @@ package Servlets;
 
 import java.io.IOException;
 
-
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +18,6 @@ import Logic.ClienteLogic;
 
 import Logic.ProductoLogic;
 
-
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -31,7 +28,7 @@ public class Login extends HttpServlet {
     }
 
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		ProductoLogic productoLogic = new ProductoLogic();
 		ClienteLogic clienteLogic = new ClienteLogic();
         Cliente cliente = new Cliente();
@@ -39,16 +36,19 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
         cliente.setTelefono(telefono);
         cliente.setPassword(password);
+        cliente.setRepetirPassword(password);
+        cliente = clienteLogic.EncriptaContrasenia(cliente);
         BugManager bugManager = new BugManager();      
-        bugManager.setError(clienteLogic.verificarDatos(cliente, password));  
+        bugManager.setError(clienteLogic.verificarDatos(cliente, cliente.getPassword()));  
         
-        if(bugManager.getError().equals(TipoError.NOEXISTE))//TOMA ESTE CAMINO LA CUENTA CON LA QUE SE QUIERE INICIAR SESION ES INEXISTENTE
+        
+        if(bugManager.getError().equals(TipoError.NOEXISTE))//TOMA ESTE CAMINO SI LA CUENTA CON LA QUE SE QUIERE INICIAR SESION ES INEXISTENTE
         {
         	response.getWriter().append("Cuenta inexistente").append(request.getContextPath());
-  			response.setContentType("text/html");
-  			response.getWriter().println("<a href=\"./Registrarse.jsp\">Registrarse</a>");  
+  	        response.setContentType("text/html");
+  		response.getWriter().println("<a href=\"./Registrarse.jsp\">Registrarse</a>");  
         }
-        else if(bugManager.getError().equals(TipoError.CAMPOSENBLANCO))//TOMA ESTE CAMINO SI USUARIO/CONTRASEÑA ESTAN EN BLANCO 
+        else if(bugManager.getError().equals(TipoError.CAMPOSENBLANCO))//TOMA ESTE CAMINO SI USUARIO/CONTRASEÃ‘A ESTAN EN BLANCO 
         { 	
         	request.setAttribute("error", "CamposEnBlanco");
         	request.getRequestDispatcher("./Login.jsp").forward(request, response);  
@@ -59,7 +59,7 @@ public class Login extends HttpServlet {
         	request.setAttribute("telefono", cliente.getTelefono());
         	request.getRequestDispatcher("./Login.jsp").forward(request, response); 
         }
-        else if(bugManager.getError().equals(TipoError.PASSWORINCORRECTA))//TOMA ESTE CAMINO SI LA CONTRASEÑA ES INCORRECTA
+        else if(bugManager.getError().equals(TipoError.PASSWORINCORRECTA))//TOMA ESTE CAMINO SI LA CONTRASEÃ‘A ES INCORRECTA
         {
         	request.setAttribute("telefono", telefono);
         	request.setAttribute("error", "PasswordIncorrecta");   	
@@ -71,7 +71,6 @@ public class Login extends HttpServlet {
         	if(cliente.getTipoPermisos().equals("admin"))//SE VERIFICA SI QUIEN INICIO SESSION TIENE PERMISOS DE DE CLIENTE O ADMIN
         	{
         		HttpSession sessionLogin= request.getSession();
-        		HttpSession sessionCantPedidos = request.getSession();
         		sessionLogin.setAttribute("sessionLogin", cliente.getNroCliente());
         		request.setAttribute("listaTipoProductos", productoLogic.GetAllTiposProductos()); 
         		VerificaNuevoPedido oyente = new VerificaNuevoPedido();
