@@ -11,12 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Entities.LineaPedido;
 import Entities.Pedido;
-import Entities.Producto;
-import Logic.LineaPedidoLogic;
 import Logic.PedidoLogic;
-import Logic.ProductoLogic;
+
 
 @MultipartConfig
 @WebServlet("/Cliente")
@@ -30,10 +27,8 @@ public class Cliente extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		HttpSession session=request.getSession();
 		PedidoLogic pedidoLogic = new PedidoLogic();
-		LineaPedidoLogic lineaPedidoLogic = new LineaPedidoLogic();
 		LinkedList<Pedido> listaTodosLosPedidos;
 		LinkedList<Pedido> listaPedidosDeCliente;
-		LinkedList<LineaPedido> listaLineasPedido;
 		
 		if(request.getParameter("NuevoPedido")!=null)//SI SE LE DA CLICK AL BOTON Realizar Pedido TOMA ESTE CAMINO
 		{
@@ -65,3 +60,4 @@ public class Cliente extends HttpServlet {
 	}
 
 }
+
